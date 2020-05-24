@@ -1,12 +1,14 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { showAll, hideDone, deleteDoneTask } from '../actions/taskActions.js'
-import { Button } from '@material-ui/core'
 import './Menu.css'
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { IconButton } from '@material-ui/core';
 
 function Menu() {    
     const tasks = useSelector(state => state.tasks)
     const dispatch = useDispatch()
+    let doneTasksHide = false
 
     const deleteAllDoneTasks = () => {
         let id = []
@@ -18,22 +20,23 @@ function Menu() {
         dispatch(deleteDoneTask(id))
     }
 
-    const showAllTasks = () => {
-        dispatch(showAll())
-    }
-
     const hideDoneTasks = () => {
-        dispatch(hideDone())
+        if (doneTasksHide) {
+            dispatch(showAll())
+        } else {
+            dispatch(hideDone())
+        }
+        doneTasksHide = !doneTasksHide
     }
 
     return (
         <div className="menu">
-            <Button className="button" variant="outlined" color="primary" onClick={hideDoneTasks}>
-            hide all done tasks</Button>
-            <Button className="button" variant="outlined" color="primary" onClick={deleteAllDoneTasks}>
-            delete all done tasks</Button>
-            <Button className="button" variant="outlined" color="primary" onClick={showAllTasks}>
-            show all</Button>
+            <IconButton className="menu-icons" onClick={deleteAllDoneTasks}>
+            <img src="https://cdn2.iconfinder.com/data/icons/cleaning-19/30/30x30-10-512.png" 
+            alt="" className="icon-size"></img></IconButton>
+            <IconButton color={doneTasksHide ? 'primary' : 'default' } 
+            className="menu-icons" onClick={hideDoneTasks}>
+            <FilterListIcon/></IconButton>
         </div>
     )
 }

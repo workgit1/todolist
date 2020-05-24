@@ -1,9 +1,11 @@
 .createdTask{
-    text-align: left
+    text-align: left;
+    margin-left: 20px
 }
 
 .complitedTask {
-    text-align: right
+    text-align: right;
+    margin-right: 20px
 }
 
 .tasks-info{
@@ -15,5 +17,15 @@
     display: flex;
     justify-content: space-between;
     color: gray
+}
+
+.tasks {
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 50%;
+    position: relative;
+    left: -200px;
+    width: 400px;
+    height: 600px;
 }
 

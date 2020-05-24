@@ -8,10 +8,15 @@
 
 .task {
     margin-top: 10px;
-    margin-left: 50%;
     position: relative;
-    left: -230px;
-    width: 460px;
+    width: 380px;
     height: 70px;
     text-align: left;
+    overflow-y: auto;
+}
+
+.tasks-collection{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:66%;
 }

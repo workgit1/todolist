@@ -24,7 +24,7 @@ function AddTodo() {
       <CardContent className="new-task-content">
         <form onSubmit={handleSubmit}>
           <TextField
-            id="standard-full-width"
+            className="text-filed"
             style={{ margin: 8 }}
             placeholder="Add a new task:"
             onChange={handleChange} 

@@ -1,9 +1,7 @@
 .add-task {
-    margin-top: 10px;
-    margin-left: 50%;
-    position: relative;
-    left: -230px;
-    width: 460px;
+    position: absolute;
+    bottom: 0;
+    width: 400px;
     height: 80px;
     text-align: left;
 }
@@ -14,4 +12,8 @@
 
 #standard-full-width {
     width: 410px;
+}
+
+.text-filed{
+    width: 355px;
 }

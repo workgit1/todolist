@@ -1,3 +1,13 @@
 .menu {
     margin-top: 20px;
 }
+.menu-icons {
+    height: 20px;
+    width: 20px;
+    float: right;    
+    right: 35px;
+}
+.icon-size{
+    height: 20px;
+    width: 20px;
+}

@@ -4,6 +4,7 @@ import Tasks from './Tasks.js'
 import AddTask from './AddTask.js'
 import Menu from './Menu.js'
 import './ToDoList.css'
+import { Card } from '@material-ui/core';
 
 function ToDoList() { 
     const tasks = useSelector(state => state.tasks)
@@ -11,7 +12,8 @@ function ToDoList() {
     let doneTasksNumber = tasks.filter(task => task.confirm).length
 
     return(
-        <div className = 'tasks'>
+        <Card className = 'tasks'>
+            <Menu/>
             <h1 className = 'title'>Todo list</h1>
             <div className="tasks-info">
                 <div className="createdTask">{tasksNumber}</div>
@@ -23,8 +25,7 @@ function ToDoList() {
             </div>
             <Tasks/>
             <AddTask/>
-            <Menu/>
-        </div>
+        </Card>
     )
 }
 
