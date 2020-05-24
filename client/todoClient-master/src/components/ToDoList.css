@@ -1,0 +1,19 @@
+.createdTask{
+    text-align: left
+}
+
+.complitedTask {
+    text-align: right
+}
+
+.tasks-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.tasks-about{
+    display: flex;
+    justify-content: space-between;
+    color: gray
+}
+

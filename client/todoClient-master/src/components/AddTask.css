@@ -1,0 +1,17 @@
+.add-task {
+    margin-top: 10px;
+    margin-left: 50%;
+    position: relative;
+    left: -230px;
+    width: 460px;
+    height: 80px;
+    text-align: left;
+}
+
+.new-task-content {
+    background-color: rgba(242, 243, 250, 0.788);
+}
+
+#standard-full-width {
+    width: 410px;
+}

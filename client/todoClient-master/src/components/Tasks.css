@@ -1,0 +1,17 @@
+.action-icon{
+    height: 20px;
+    width: 20px;
+    float: right;    
+    margin-left: 5px;
+    margin-top: 8px;
+}
+
+.task {
+    margin-top: 10px;
+    margin-left: 50%;
+    position: relative;
+    left: -230px;
+    width: 460px;
+    height: 70px;
+    text-align: left;
+}
