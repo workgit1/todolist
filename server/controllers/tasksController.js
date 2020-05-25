@@ -23,13 +23,11 @@ module.exports = function(app){
     app.get('/task', function(req, res){
         try {
             task.find({}, function(err, data) {
-                if (err) throw err
                 res.send({'tasks': data})
             })
         }
         catch (err) {
-            console.log(err)
-            res.send("500 Internal Server Error\n" + err)
+            throw Error("Fail getting all tasks " + err)
         }
         
     })
@@ -50,8 +48,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            console.log(err)
-            res.send("500 Internal Server Error\n" + err)
+            throw Error("Fail add new task " + err)
         }
     })
 
@@ -71,8 +68,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            console.log(err)
-            res.send("500 Internal Server Error\n" + err)
+            throw Error("Fail delete task " + err)
         }
     })
 
@@ -89,8 +85,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            console.log(err)
-            res.send("500 Internal Server Error\n" + err)
+            throw Error("Fail delete all done tasks " + err)
         }
     })
 
@@ -113,8 +108,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            console.log(err)
-            res.send("500 Internal Server Error\n" + err)
+            throw Error("Fail edit task " + err)
         }
     })
 }   
