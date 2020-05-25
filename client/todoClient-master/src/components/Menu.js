@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showAll, hideDone, deleteDoneTask } from '../actions/taskActions.js'
 import './Menu.css'
 import FilterListIcon from '@material-ui/icons/FilterList';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from '@material-ui/core';
 
 function Menu() {    
@@ -32,10 +33,8 @@ function Menu() {
     return (
         <div className="menu">
             <IconButton className="menu-icons" onClick={deleteAllDoneTasks}>
-            <img src="https://cdn2.iconfinder.com/data/icons/cleaning-19/30/30x30-10-512.png" 
-            alt="" className="icon-size"></img></IconButton>
-            <IconButton color={doneTasksHide ? 'primary' : 'default' } 
-            className="menu-icons" onClick={hideDoneTasks}>
+            <DeleteIcon/></IconButton>
+            <IconButton className="menu-icons" onClick={hideDoneTasks}>
             <FilterListIcon/></IconButton>
         </div>
     )

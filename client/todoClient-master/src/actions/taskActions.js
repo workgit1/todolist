@@ -5,18 +5,21 @@ export const deleteTask = (id) => {
     const action = {type: 'DELETE_TASK',
                     id
                     }   
-return dispatch => {
-    axios.delete(URL + `/deleteTask/${id}`)
-        .then(res => {
-            if (res.data) {
-                dispatch(action)
-                }
-                else {
-                    alert('cant delete the task, please try agian')
-                }
-            }).catch(err => {
+    return dispatch => {
+        try {
+            axios.delete(URL + `/deleteTask/${id}`)
+            .then(res => {
+                if (res.data) {
+                    dispatch(action)
+                    }
+                    else {
+                        alert('cant delete the task, please try agian')
+                    }
+                })
+        }
+        catch(err) {
             console.log(err)
-        })
+        }
     }
 }
 
@@ -26,19 +29,22 @@ export const deleteDoneTask = (id) => {
         id
     }
     return dispatch => {
-        axios.post(URL + `/deleteDoneTasks`, id)
-        .then(res => {
+        try {
+            axios.post(URL + `/deleteDoneTasks`, id)
+            .then(res => {
                 if (res.data) {
                     dispatch(action)
                     }
                     else {
                         alert('cant delete all done tasks, please try agian')
                     }
-                }).catch(err => {
+                })
+        }
+        catch (err) {
                 console.log(err)
-            })
         }
     }
+}
 
 export const AddTask = (task) => {
     const action = {
@@ -49,7 +55,8 @@ export const AddTask = (task) => {
         }
     }
     return dispatch => {
-        return axios.post(URL + '/addTask', action.task)
+        try {
+            return axios.post(URL + '/addTask', action.task)
             .then(res => {
                 if (res.data) {
                     action.task._id = res.data
@@ -57,9 +64,11 @@ export const AddTask = (task) => {
                 } else {
                     alert('cant change the task, please try agian')
                 }
-            }).catch(err => {
-                console.log(err)
             })
+        }
+        catch (err) {
+                console.log(err)
+        }
     }
 }
 
@@ -73,16 +82,19 @@ export const editTask = (id, task, confirm) => {
         }
     }
     return dispatch => {
-        return axios.put(URL + '/editTask', action.task)
+        try {
+            return axios.put(URL + '/editTask', action.task)
             .then(res => {
                 if (res) {
                     dispatch(action)
                 } else {
                     alert('cant change the task, please try agian')
                 }
-            }).catch(err => {
-                console.log(err)
             })
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 }
 
@@ -107,12 +119,15 @@ export const AddTaskContent = (content) => {
 
 export const getTasks = () => {
     return dispatch => {
-        return axios.get(URL + '/task')
+        try {
+            return axios.get(URL + '/task')
             .then(res => {
                 dispatch(setTasks(res.data.tasks))
-            }).catch(err => {
-                console.log(err)
             })
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 }
 

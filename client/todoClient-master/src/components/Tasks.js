@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, editTask, getTasks } from '../actions/taskActions.js'
 import './Tasks.css'
 import { Card, CardContent, Checkbox } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 function Tasks() { 
     let AllTasks = useSelector(state => state.tasks)
@@ -39,10 +43,12 @@ function Tasks() {
                             onChange={() => {confirmTask(task)}}
                         />   
                         <label>{task.task}</label>
-                        <img className="action-icon" src="https://cdn2.iconfinder.com/data/icons/cleaning-19/30/30x30-10-512.png"
-                        alt="" onClick={() => {removeTask(task)}}></img>
-                        <img className="action-icon" src="https://i.ya-webdesign.com/images/how-to-edit-a-png-file-4.png"
-                        alt="" data-task={task.task} onClick={() => {changeTask(task)}}></img>
+                        <IconButton className="action-icon">
+                        <DeleteIcon onClick={() => {removeTask(task)}}/>
+                        </IconButton>
+                        <IconButton className="action-icon">
+                        <EditIcon onClick={() => {changeTask(task)}}/>
+                        </IconButton>
                     </CardContent>
                 </Card>
             )
