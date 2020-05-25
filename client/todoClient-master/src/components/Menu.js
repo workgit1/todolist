@@ -14,7 +14,7 @@ function Menu() {
     const deleteAllDoneTasks = () => {
         let id = []
         tasks.map(task => {
-            if (task.confirm) {
+            if (task.IsConfirm) {
                 id.push(task._id)
             }
         })

@@ -18,13 +18,13 @@ function Tasks() {
     }, [dispatch])
 
     const confirmTask = (task) => {
-        dispatch(editTask(task._id, task.task, !task.confirm));
+        dispatch(editTask(task._id, task.task, !task.IsConfirm));
     }
     
     const changeTask = (task) => {
         let editedTask = prompt("edit the task", task.task)
         if (editedTask !== null && editedTask !== task.task) {
-            dispatch(editTask(task._id, editedTask, task.confirm))
+            dispatch(editTask(task._id, editedTask, task.IsConfirm))
         }    
     }
 
@@ -33,13 +33,13 @@ function Tasks() {
     }
     
     const tasks = AllTasks.map(task => {
-        if (((!task.confirm) || (!hide)) && (task.task.includes(filter))) {
+        if (((!task.IsConfirm) || (!hide)) && (task.task.includes(filter))) {
             return (
                 <Card key={task._id} className="task">    
                     <CardContent> 
                         <Checkbox
                             color="primary"
-                            checked={task.confirm}
+                            checked={task.IsConfirm}
                             onChange={() => {confirmTask(task)}}
                         />   
                         <label>{task.task}</label>

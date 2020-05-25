@@ -6,35 +6,30 @@ const tasksSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    confirm: {
+    IsConfirm: {
         type: Boolean,
         default: false
     }
 })
 const task = mongoose.model('tasks', tasksSchema)
 
-// crate new tasks:
-// task({task: 'eat', confirm: false},
-//     {task: 'drink', confirm: false}, 
-//     {task: 'sleep', confirm: false}).save()
+module.exports = (app) => {
 
-module.exports = function(app){
-
-    app.get('/task', function(req, res){
+    app.get('/task', (req, res) => {
         try {
-            task.find({}, function(err, data) {
+            task.find({}, (err, data) => {
                 res.send({'tasks': data})
             })
         }
         catch (err) {
-            throw Error("Fail getting all tasks " + err)
+            console.log("Fail getting all tasks " + err.massage)
         }
         
     })
 
     app.post('/addTask', async (req, res) => {
         try {
-            task.find({task: await req.body.task}, function(err, data) {
+            task.find({task: await req.body.task}, (err, data) => {
                 if (err) throw err
                 console.log(data.length)
                 if (data.length == 1) {
@@ -48,16 +43,15 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            throw Error("Fail add new task " + err)
+            throw Error("Fail add new task " + err.massage)
         }
     })
 
-    app.delete('/deleteTask/:id', function(req, res){
+    app.delete('/deleteTask/:id', (req, res) => {
         try {
             const url = req.url.split('/')
             const id = url[url.length-1]
-            task.deleteOne({'_id': id}, function(err, data){
-                if (err) throw err 
+            task.deleteOne({'_id': id}, (err, data) => {                 if (err) throw err 
                 if (data.deletedCount){
                     console.log("delete " + id + " successfuly")
                     // delete success
@@ -68,13 +62,13 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            throw Error("Fail delete task " + err)
+            throw Error("Fail delete task " + err.massage)
         }
     })
 
-    app.post('/deleteDoneTasks', function(req, res){
+    app.post('/deleteDoneTasks', (req, res) => {
         try{
-            task.deleteMany({_id: { $in: req.body }}, function(err, data){
+            task.deleteMany({_id: { $in: req.body }}, (err, data) => {
                 if (err) throw err 
                 if (data.deletedCount){
                     // delete success
@@ -85,7 +79,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            throw Error("Fail delete all done tasks " + err)
+            throw Error("Fail delete all done tasks " + err.massage)
         }
     })
 
@@ -95,9 +89,9 @@ module.exports = function(app){
                 { _id: req.body.id }, 
                 { $set: {
                 task: req.body.task,
-                confirm: req.body.confirm,
+                IsConfirm: req.body.IsConfirm,
                 }
-            }, function(err, data) {
+            }, (err, data) => {
                 if (err) throw err
                 if (data.ok) {
                     // task edited
@@ -108,7 +102,7 @@ module.exports = function(app){
             })
         }
         catch (err) {
-            throw Error("Fail edit task " + err)
+            throw Error("Fail edit task " + err.massage)
         }
     })
 }   

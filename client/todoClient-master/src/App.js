@@ -3,8 +3,8 @@ import './App.css';
 import ToDoList from './components/ToDoList.js'
 
 function App() {
-  return (
-    <div className="App">
+  return ( 
+    <div className="app">
       <ToDoList/>
     </div>
   );

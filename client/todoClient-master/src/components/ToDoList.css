@@ -21,11 +21,10 @@
 
 .tasks {
     text-align: center;
-    margin-top: 10px;
-    margin-left: 50%;
+    margin-top: 5px;
     position: relative;
-    left: -200px;
+    left: 5px;
     width: 400px;
-    height: 600px;
+    height: 655px;
 }
 
