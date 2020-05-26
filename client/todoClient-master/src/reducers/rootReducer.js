@@ -23,7 +23,7 @@ const rootReducer = (state = initState, action) => {
                 (task) => task._id === action.task.id ? {
                     ...task,
                     task: action.task.task,
-                    confirm: action.task.confirm
+                    IsConfirm: action.task.IsConfirm
                 } : task)
         }
     } else if (action.type === 'SHOW_ALL') {

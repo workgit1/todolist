@@ -15,8 +15,11 @@
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
+    "react-visjs-timeline": "^1.6.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "vis": "^4.21.0-EOL",
+    "vis-timeline": "^7.3.6"
   },
   "scripts": {
     "start": "react-scripts start",

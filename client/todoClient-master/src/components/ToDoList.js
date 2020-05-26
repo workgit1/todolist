@@ -9,7 +9,7 @@ import { Card } from '@material-ui/core';
 function ToDoList() { 
     const tasks = useSelector(state => state.tasks)
     let tasksNumber = tasks.length
-    let doneTasksNumber = tasks.filter(task => task.confirm).length
+    let doneTasksNumber = tasks.filter(task => task.IsConfirm).length
 
     return(
         <Card className = 'tasks'>
