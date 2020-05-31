@@ -2,13 +2,21 @@ const mongoose = require('mongoose')
 
 mongoose.connect('mongodb://localhost:27017/tasks', {useNewUrlParser: true, useUnifiedTopology: true});
 const tasksSchema = new mongoose.Schema({
-    task: {
+    content: {
         type: String,
         required: true
     },
     IsConfirm: {
         type: Boolean,
         default: false
+    },
+    start: {
+        type: String,
+        required: true
+    },
+    end: {
+        type: String,
+        required: true
     }
 })
 const task = mongoose.model('tasks', tasksSchema)
@@ -27,16 +35,19 @@ module.exports = (app) => {
         
     })
 
-    app.post('/addTask', async (req, res) => {
+    app.post('/addTask', (req, res) => {
         try {
-            task.find({task: await req.body.task}, (err, data) => {
+            task.find({content: req.body.content}, (err, data) => {
                 if (err) throw err
-                console.log(data.length)
                 if (data.length == 1) {
                     // task already exist
                     res.send(false)
                 } else {
-                    task({task: req.body.task}).save().then( task => {
+                    task({
+                        content: req.body.content, 
+                        start: req.body.start, 
+                        end: req.body.end
+                    }).save().then( task => {
                         res.send(task._id)
                     })
                 }
@@ -88,7 +99,7 @@ module.exports = (app) => {
             task.updateOne(
                 { _id: req.body.id }, 
                 { $set: {
-                task: req.body.task,
+                content: req.body.content,
                 IsConfirm: req.body.IsConfirm,
                 }
             }, (err, data) => {

@@ -43,12 +43,14 @@ export const deleteDoneTask = (id) => {
     }
 }
 
-export const AddTask = (task) => {
+export const AddTask = (task, startDate, endDate) => {
     const action = {
         type: 'ADD_TASK',
         task: {
-            task: task,
-            IsConfirm: false
+            content: task,
+            IsConfirm: false,
+            start: startDate,
+            end: endDate
         }
     }
     return dispatch => {
@@ -73,7 +75,7 @@ export const editTask = (id, task, IsConfirm) => {
         type: 'EDIT_TASK',
         task: {
             id: id,
-            task: task,
+            content: task,
             IsConfirm: IsConfirm
         }
     }

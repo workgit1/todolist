@@ -22,7 +22,7 @@ const rootReducer = (state = initState, action) => {
             tasks: state.tasks.map(
                 (task) => task._id === action.task.id ? {
                     ...task,
-                    task: action.task.task,
+                    content: action.task.content,
                     IsConfirm: action.task.IsConfirm
                 } : task)
         }

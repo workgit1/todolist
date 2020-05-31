@@ -2,7 +2,7 @@
     position: absolute;
     bottom: 0;
     width: 400px;
-    height: 80px;
+    height: 150px;
     text-align: left;
 }
 
@@ -16,4 +16,12 @@
 
 .text-filed{
     width: 355px;
+}
+
+.dateLine{
+    display: flex;
+    justify-content: space-between;
+}
+
+.dateRow{
 }
