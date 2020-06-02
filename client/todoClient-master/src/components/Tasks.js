@@ -18,12 +18,12 @@ function Tasks() {
     }, [dispatch])
 
     const confirmTask = (task) => {
-        dispatch(editTask(task._id, task.task, !task.IsConfirm));
+        dispatch(editTask(task._id, task.content, !task.IsConfirm));
     }
     
     const changeTask = (task) => {
-        let editedTask = prompt("edit the task", task.task)
-        if (editedTask !== null && editedTask !== task.task) {
+        let editedTask = prompt("edit the task", task.content)
+        if (editedTask !== null && editedTask !== task.content) {
             dispatch(editTask(task._id, editedTask, task.IsConfirm))
         }    
     }
@@ -33,7 +33,7 @@ function Tasks() {
     }
     
     const tasks = AllTasks.map(task => {
-        if (((!task.IsConfirm) || (!hide)) && (task.task.includes(filter))) {
+        if (((!task.IsConfirm) || (!hide)) && (task.content.includes(filter))) {
             return (
                 <Card key={task._id} className="task">    
                     <CardContent> 
@@ -42,12 +42,12 @@ function Tasks() {
                             checked={task.IsConfirm}
                             onChange={() => {confirmTask(task)}}
                         />   
-                        <label>{task.task}</label>
-                        <IconButton className="action-icon">
-                        <DeleteIcon onClick={() => {removeTask(task)}}/>
+                        <label>{task.content}</label>
+                        <IconButton className="action-icon"  onClick={() => {removeTask(task)}}>
+                        <DeleteIcon/>
                         </IconButton>
-                        <IconButton className="action-icon">
-                        <EditIcon onClick={() => {changeTask(task)}}/>
+                        <IconButton className="action-icon" onClick={() => {changeTask(task)}}>
+                        <EditIcon/>
                         </IconButton>
                     </CardContent>
                 </Card>

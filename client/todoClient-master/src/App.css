@@ -1,4 +1,11 @@
-/* .app{
+.app{
     display: flex;
-    justify-content: space-between;
-} */
+    flex-wrap: wrap;
+}
+
+.todolist {
+    flex: 40%;
+}
+.timeline-map {
+    flex: 60%;
+}

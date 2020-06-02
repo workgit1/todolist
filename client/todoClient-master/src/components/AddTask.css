@@ -2,7 +2,7 @@
     position: absolute;
     bottom: 0;
     width: 400px;
-    height: 80px;
+    height: 150px;
     text-align: left;
 }
 
@@ -16,4 +16,13 @@
 
 .text-filed{
     width: 355px;
+}
+
+.Line{
+    display: flex;
+    justify-content: space-between;
+}
+
+.YRow{
+    margin-right: 110px
 }

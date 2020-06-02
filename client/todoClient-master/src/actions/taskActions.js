@@ -43,12 +43,15 @@ export const deleteDoneTask = (id) => {
     }
 }
 
-export const AddTask = (task) => {
+export const AddTask = (task, startDate, endDate, coordinate) => {
     const action = {
         type: 'ADD_TASK',
         task: {
-            task: task,
-            IsConfirm: false
+            content: task,
+            IsConfirm: false,
+            start: startDate,
+            end: endDate,
+            coordinate
         }
     }
     return dispatch => {
@@ -73,7 +76,7 @@ export const editTask = (id, task, IsConfirm) => {
         type: 'EDIT_TASK',
         task: {
             id: id,
-            task: task,
+            content: task,
             IsConfirm: IsConfirm
         }
     }
@@ -117,6 +120,7 @@ export const getTasks = () => {
         try {
             return axios.get(URL + '/task')
                 .then(res => {
+                    console.log(res.data.tasks)
                     dispatch(setTasks(res.data.tasks))
                 })
         } catch (err) {
@@ -129,5 +133,19 @@ export const setTasks = (tasks) => {
     return {
         type: 'GET_TASKS',
         tasks: tasks
+    }
+}
+
+export const setFocusItem = (id) => {
+    return {
+        type: 'SET_FOCUS_ITEM',
+        id
+    }
+}
+
+export const setCoordinates = (coordinate) => {
+    return {
+        type: 'SET_COORDINATES',
+        coordinate
     }
 }
