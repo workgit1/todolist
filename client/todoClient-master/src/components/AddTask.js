@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
 function AddTodo() {
+  const coordinate = useSelector(state => state.coordinate)
   const content = useSelector(state => state.filter)
   const dispatch = useDispatch()
   
@@ -17,7 +18,7 @@ function AddTodo() {
   const handleSubmit = (e) => {
     e.preventDefault(); 
     if (content !== "") {
-      dispatch(AddTask(content, startDate, endDate)) 
+      dispatch(AddTask(content, startDate, endDate, coordinate)) 
       setStartDate(new Date())
       setEndDate(new Date())
     }
@@ -39,32 +40,40 @@ function AddTodo() {
             value={content}
           />     
         </form>
-        <div className = 'dateLine'>
-            <div className = 'dateRow'>
-              start date: <DatePicker
-                withPortal
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-              />
-            </div>
-            <div className = 'dateRow'>
-              end date: <DatePicker
-                withPortal
-                selected={endDate}
-                onChange={date => setEndDate(date)}
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                timeCaption="time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-              /> 
-            </div>
-          </div>  
+        <div className = 'Line'>
+          <div className = 'dateRow'>
+            start date: <DatePicker
+              withPortal
+              selected={startDate}
+              onChange={date => setStartDate(date)}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+            />
+          </div>
+          <div className = 'dateRow'>
+            end date: <DatePicker
+              withPortal
+              selected={endDate}
+              onChange={date => setEndDate(date)}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+            /> 
+          </div>
+        </div> 
+        <div className = 'Line'>
+          <div className = 'XRow'>
+            X: {parseFloat(coordinate[0]).toFixed(4)}     
+          </div>
+          <div className = 'YRow'>
+            Y: {parseFloat(coordinate[1]).toFixed(4)}
+          </div>
+        </div> 
       </CardContent>
     </Card>
   )

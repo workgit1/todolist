@@ -17,6 +17,10 @@ const tasksSchema = new mongoose.Schema({
     end: {
         type: String,
         required: true
+    },
+    coordinate: {
+        type: Array,
+        required: true
     }
 })
 const task = mongoose.model('tasks', tasksSchema)
@@ -37,6 +41,7 @@ module.exports = (app) => {
 
     app.post('/addTask', (req, res) => {
         try {
+            console.log(req.body.coordinate)
             task.find({content: req.body.content}, (err, data) => {
                 if (err) throw err
                 if (data.length == 1) {
@@ -46,7 +51,8 @@ module.exports = (app) => {
                     task({
                         content: req.body.content, 
                         start: req.body.start, 
-                        end: req.body.end
+                        end: req.body.end,
+                        coordinate: req.body.coordinate
                     }).save().then( task => {
                         res.send(task._id)
                     })

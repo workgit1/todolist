@@ -1,7 +1,9 @@
 const initState = {
     tasks: [],
     filter: '',
-    hide: false
+    hide: false,
+    focusItem: '',
+    coordinate: [0,0]
 }
 
 const rootReducer = (state = initState, action) => {
@@ -50,6 +52,16 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             tasks: state.tasks.filter(task => !action.id.includes(task._id))
+        }
+    } else if (action.type === 'SET_FOCUS_ITEM') {
+        return {
+            ...state,
+            focusItem: action.id
+        }
+    } else if (action.type === 'SET_COORDINATES') {
+        return {
+            ...state,
+            coordinate: action.coordinate
         }
     }
     return state;

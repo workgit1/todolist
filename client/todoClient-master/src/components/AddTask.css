@@ -18,10 +18,11 @@
     width: 355px;
 }
 
-.dateLine{
+.Line{
     display: flex;
     justify-content: space-between;
 }
 
-.dateRow{
+.YRow{
+    margin-right: 110px
 }

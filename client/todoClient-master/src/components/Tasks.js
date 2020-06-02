@@ -43,11 +43,11 @@ function Tasks() {
                             onChange={() => {confirmTask(task)}}
                         />   
                         <label>{task.content}</label>
-                        <IconButton className="action-icon">
-                        <DeleteIcon onClick={() => {removeTask(task)}}/>
+                        <IconButton className="action-icon"  onClick={() => {removeTask(task)}}>
+                        <DeleteIcon/>
                         </IconButton>
-                        <IconButton className="action-icon">
-                        <EditIcon onClick={() => {changeTask(task)}}/>
+                        <IconButton className="action-icon" onClick={() => {changeTask(task)}}>
+                        <EditIcon/>
                         </IconButton>
                     </CardContent>
                 </Card>
