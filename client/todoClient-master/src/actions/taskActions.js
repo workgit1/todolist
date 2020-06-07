@@ -120,7 +120,6 @@ export const getTasks = () => {
         try {
             return axios.get(URL + '/task')
                 .then(res => {
-                    console.log(res.data.tasks)
                     dispatch(setTasks(res.data.tasks))
                 })
         } catch (err) {
@@ -147,5 +146,30 @@ export const setCoordinates = (coordinate) => {
     return {
         type: 'SET_COORDINATES',
         coordinate
+    }
+}
+
+export const setDate = (id, start, end) => {
+    const action = {
+        type: 'SET_DATE',
+        task: { 
+            id,
+            start,
+            end
+        }
+    }
+    return dispatch => {
+        try {
+            return axios.put(URL + '/editDate', action.task)
+                .then(res => {
+                    if (res) {
+                        dispatch(action)
+                    } else {
+                        alert('Failed change the task, please try agian')
+                    }
+                })
+        } catch (err) {
+            console.log(err.massage)
+        }
     }
 }

@@ -41,7 +41,6 @@ module.exports = (app) => {
 
     app.post('/addTask', (req, res) => {
         try {
-            console.log(req.body.coordinate)
             task.find({content: req.body.content}, (err, data) => {
                 if (err) throw err
                 if (data.length == 1) {
@@ -107,6 +106,29 @@ module.exports = (app) => {
                 { $set: {
                 content: req.body.content,
                 IsConfirm: req.body.IsConfirm,
+                }
+            }, (err, data) => {
+                if (err) throw err
+                if (data.ok) {
+                    // task edited
+                    res.send(true)
+                } else {
+                    res.send(false)
+                }
+            })
+        }
+        catch (err) {
+            throw Error("Fail edit task " + err.massage)
+        }
+    })
+
+    app.put('/editDate', async (req, res) => {
+        try {
+            task.updateOne(
+                { _id: req.body.id }, 
+                { $set: {
+                start: req.body.start,
+                end: req.body.end,
                 }
             }, (err, data) => {
                 if (err) throw err
