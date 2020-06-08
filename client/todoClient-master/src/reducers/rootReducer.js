@@ -2,8 +2,8 @@ const initState = {
     tasks: [],
     filter: '',
     hide: false,
-    focusItem: '',
-    coordinate: [0,0]
+        focusItem: '',
+        coordinate: [0,0]
 }
 
 const rootReducer = (state = initState, action) => {
@@ -62,6 +62,16 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             coordinate: action.coordinate
+        }
+    } else if (action.type === 'SET_DATE') {
+        return {
+            ...state,
+            tasks: state.tasks.map(
+                (task) => task._id === action.task.id ? {
+                    ...task,
+                    start: action.task.start,
+                    end: action.task.end
+                } : task)
         }
     }
     return state;
