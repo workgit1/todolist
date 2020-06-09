@@ -22,6 +22,8 @@ function AddTodo() {
       dispatch(AddTask(content, startDate, endDate, coordinate)) 
       setStartDate(new Date())
       setEndDate(new Date())
+      dispatch(AddTaskContent(''))
+      document.getElementById("a").style.display = "none" 
     }
   }
 

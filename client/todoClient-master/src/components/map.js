@@ -20,7 +20,7 @@ const mapTemplate = () => new Map({
     ],
     view: new View({
         center: transform([ 34.8516, 31.0461 ],"EPSG:4326","EPSG:3857"),
-        zoom: 6,
+        zoom: 6
     }),
 })
 
@@ -31,7 +31,6 @@ const popupTemplate = (container) => new Overlay({
         duration: 250
     }
 })
-
 
 function MapShow() { 
     const dispatch = useDispatch()
@@ -54,6 +53,22 @@ function MapShow() {
     
         return y.replace(/(y+)/g, function(v) {
             return x.getFullYear().toString().slice(-v.length)
+        })
+    }
+
+    const flyTo = (location, view) => {
+        var duration = 2000;
+        var zoom = view.getZoom();
+        view.animate({
+          center: location,
+          duration: duration
+        })
+        view.animate({
+          zoom: zoom - 1,
+          duration: duration / 2
+        }, {
+          zoom: zoom,
+          duration: duration / 2
         })
     }
 
@@ -106,7 +121,8 @@ function MapShow() {
                     return feature.values_.content._id == focusItem
                 })[0]
                 setPopup(feature, transform(coordinate,"EPSG:4326","EPSG:3857"), map)
-                map.getView().setCenter(transform(coordinate, 'EPSG:4326', 'EPSG:3857'))
+                // map.getView().setCenter(transform(coordinate, 'EPSG:4326', 'EPSG:3857'))
+                flyTo(transform(coordinate, 'EPSG:4326', 'EPSG:3857'), map.getView())
             } else {
                 map.overlays_.array_[0].setPosition(undefined);
             }
