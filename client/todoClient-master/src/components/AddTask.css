@@ -4,6 +4,7 @@
     width: 400px;
     height: 150px;
     text-align: left;
+    display: none;
 }
 
 .new-task-content {
@@ -25,4 +26,8 @@
 
 .YRow{
     margin-right: 110px
+}
+
+#addButton {
+    margin-top: 10%
 }
