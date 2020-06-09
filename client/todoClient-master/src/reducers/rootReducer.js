@@ -8,10 +8,15 @@ const initState = {
 
 const rootReducer = (state = initState, action) => {
     if (action.type === 'DELETE_TASK') {
+        let focusId = state.focusItem
+        if (state.focusItem === action.id) {
+            focusId = ''
+        }
         const tasks = state.tasks.filter(task => task._id !== action.id)
         return {
             ...state,
-            tasks: tasks
+            tasks: tasks,
+            focusItem: focusId
         }
     } else if (action.type === 'ADD_TASK') {
         return {

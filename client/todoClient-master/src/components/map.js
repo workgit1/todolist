@@ -62,7 +62,6 @@ function MapShow() {
         content.current.innerText = "content: " + TaskInfo.content + '\r'
                             + "date: " + format(new Date(TaskInfo.start), 'dd/MM/yyyy hh:mm') + 
                             " - " + format(new Date(TaskInfo.end), 'dd/MM/yyyy hh:mm') + '\r'
-        console.log(map.overlays_.array_[0])
         const popup = map.overlays_.array_[0]
         popup.setPosition(coordinate);
         feature.set('popup', popup)
@@ -108,6 +107,8 @@ function MapShow() {
                 })[0]
                 setPopup(feature, transform(coordinate,"EPSG:4326","EPSG:3857"), map)
                 map.getView().setCenter(transform(coordinate, 'EPSG:4326', 'EPSG:3857'))
+            } else {
+                map.overlays_.array_[0].setPosition(undefined);
             }
         }
     }, [map, tasks, focusItem])
