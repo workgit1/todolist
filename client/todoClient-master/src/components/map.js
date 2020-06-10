@@ -46,10 +46,10 @@ function MapShow() {
             h: x.getHours(),
             m: x.getMinutes(),
             s: x.getSeconds()
-        };
+        }
         y = y.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
             return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
-        });
+        })
     
         return y.replace(/(y+)/g, function(v) {
             return x.getFullYear().toString().slice(-v.length)
@@ -57,8 +57,8 @@ function MapShow() {
     }
 
     const flyTo = (location, view) => {
-        var duration = 2000;
-        var zoom = view.getZoom();
+        let duration = 2000
+        let zoom = view.getZoom()
         view.animate({
           center: location,
           duration: duration
@@ -78,7 +78,7 @@ function MapShow() {
                             + "date: " + format(new Date(TaskInfo.start), 'dd/MM/yyyy hh:mm') + 
                             " - " + format(new Date(TaskInfo.end), 'dd/MM/yyyy hh:mm') + '\r'
         const popup = map.overlays_.array_[0]
-        popup.setPosition(coordinate);
+        popup.setPosition(coordinate)
         feature.set('popup', popup)
     }
 
@@ -94,7 +94,7 @@ function MapShow() {
                 setPopup(feature, e.coordinate, map)
             }
             else {
-                popup.setPosition(undefined);
+                popup.setPosition(undefined)
             }
             dispatch(setCoordinates(transform(e.coordinate,"EPSG:3857","EPSG:4326")))
         })
@@ -114,7 +114,7 @@ function MapShow() {
             })
             const markers = new VectorSource({features: marker})
             const markerVectorLayer = new VectorLayer({name: 'markerVectorLayer',  source : markers})
-            map.addLayer(markerVectorLayer);
+            map.addLayer(markerVectorLayer)
             if (focusItem) {
                 const coordinate = tasks.find( task => task._id === focusItem).coordinate
                 const feature = marker.filter(feature => {
@@ -124,7 +124,7 @@ function MapShow() {
                 // map.getView().setCenter(transform(coordinate, 'EPSG:4326', 'EPSG:3857'))
                 flyTo(transform(coordinate, 'EPSG:4326', 'EPSG:3857'), map.getView())
             } else {
-                map.overlays_.array_[0].setPosition(undefined);
+                map.overlays_.array_[0].setPosition(undefined)
             }
         }
     }, [map, tasks, focusItem])
@@ -137,4 +137,4 @@ function MapShow() {
     )
 }
 
-export default MapShow;
+export default MapShow

@@ -4,7 +4,7 @@ import Tasks from './Tasks.js'
 import AddTask from './AddTask.js'
 import Menu from './Menu.js'
 import './ToDoList.css'
-import { Card } from '@material-ui/core';
+import { Card } from '@material-ui/core'
 
 function ToDoList() { 
     const tasks = useSelector(state => state.tasks)
@@ -29,4 +29,4 @@ function ToDoList() {
     )
 }
 
-export default ToDoList;
+export default ToDoList

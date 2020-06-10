@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddTask, AddTaskContent, setCoordinates } from '../actions/taskActions.js'
-import { Card, CardContent, TextField, Fab } from '@material-ui/core';
+import { Card, CardContent, TextField, Fab } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import './AddTask.css'
 import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css"
 
 function AddTodo() {
   const coordinate = useSelector(state => state.coordinate)
@@ -17,7 +17,7 @@ function AddTodo() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault() 
     if (content !== "") {
       dispatch(AddTask(content, startDate, endDate, coordinate)) 
       setStartDate(new Date())
@@ -94,4 +94,4 @@ function AddTodo() {
   )
 }
   
-export default AddTodo;
+export default AddTodo

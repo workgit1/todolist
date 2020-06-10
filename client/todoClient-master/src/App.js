@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
 import ToDoList from './components/ToDoList.js'
 import Timeline from './components/timeline.js'
 import Map from './components/map.js'
@@ -15,7 +15,7 @@ function App() {
         <Map/>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

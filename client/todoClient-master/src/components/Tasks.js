@@ -2,10 +2,10 @@ import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteTask, editTask, getTasks } from '../actions/taskActions.js'
 import './Tasks.css'
-import { Card, CardContent, Checkbox } from '@material-ui/core';
-import { IconButton } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { Card, CardContent, Checkbox } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
 
 
 function Tasks() { 
@@ -13,12 +13,9 @@ function Tasks() {
     const filter = useSelector(state => state.filter)
     const hide = useSelector(state => state.hide)
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getTasks()) 
-    }, [dispatch])
 
     const confirmTask = (task) => {
-        dispatch(editTask(task._id, task.content, !task.IsConfirm));
+        dispatch(editTask(task._id, task.content, !task.IsConfirm))
     }
     
     const changeTask = (task) => {
@@ -31,6 +28,10 @@ function Tasks() {
     const removeTask = (task) => {
         dispatch(deleteTask(task._id))
     }
+     
+    useEffect(() => {
+        dispatch(getTasks()) 
+    }, [dispatch])
     
     const tasks = AllTasks.map(task => {
         if (((!task.IsConfirm) || (!hide)) && (task.content.includes(filter))) {
@@ -54,7 +55,7 @@ function Tasks() {
             )
         }
         return null
-    });
+    })
     
     return (
         <div className="tasks-collection">
@@ -64,4 +65,4 @@ function Tasks() {
 
 }
   
-export default Tasks;
+export default Tasks

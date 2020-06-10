@@ -79,7 +79,7 @@ const rootReducer = (state = initState, action) => {
                 } : task)
         }
     }
-    return state;
+    return state
 }
 
 export default rootReducer
