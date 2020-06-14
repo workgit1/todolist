@@ -12,19 +12,13 @@ function Menu() {
     const dispatch = useDispatch()
 
     const deleteAllDoneTasks = () => {
-        // const id = tasks.reduce((array, task)  => {
-        //     console.log(array)
-        //     if (task.IsConfirm) {
-        //         array.push(task._id)
-        //     }
-        // }, [])
-        const id = []
-        tasks.map(task => {
+        const id = tasks.reduce((array, task)  => {
+            console.log(array)
             if (task.IsConfirm) {
-                id.push(task._id)
-            }
-        })
-        console.log(id)
+                array.push(task._id)
+            } 
+            return array
+        }, [])
         dispatch(deleteDoneTask(id))
     }
 
