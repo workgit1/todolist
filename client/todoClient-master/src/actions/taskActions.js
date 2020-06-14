@@ -6,10 +6,10 @@ export const deleteTask = id => {
         type: 'DELETE_TASK',
         id
     }
-    return dispatch => {
+    return async dispatch => {
         try {
-            axios.delete(URL + `/deleteTask/${id}`)
-                .then(res => res.data ? dispatch(action) : alert('Failed delete the task, please try agian'))
+            const res = await axios.delete(URL + `/deleteTask/${id}`)
+            res.data ? dispatch(action) : alert('Failed delete the task, please try agian')
         } catch (err) {
             console.log(err.massage)
         }
@@ -21,10 +21,10 @@ export const deleteDoneTask = id => {
         type: 'DELETE_DONE_TASKS',
         id
     }
-    return dispatch => {
+    return async dispatch => {
         try {
-            axios.post(URL + `/deleteDoneTasks`, id)
-                .then(res => res.data ? dispatch(action) : alert('Failed delete all done tasks, please try agian'))
+            const res = await axios.post(URL + `/deleteDoneTasks`, id)
+            res.data ? dispatch(action) : alert('Failed delete all done tasks, please try agian')
         } catch (err) {
             console.log(err.massage)
         }
@@ -42,17 +42,15 @@ export const AddTask = (task, startDate, endDate, coordinate) => {
             coordinate
         }
     }
-    return dispatch => {
+    return async dispatch => {
         try {
-            return axios.post(URL + '/addTask', action.task)
-                .then(res => {
-                    if (res.data) {
-                        action.task._id = res.data
-                        dispatch(action)
-                    } else {
-                        alert('Failed change the task, please try agian')
-                    }
-                })
+            const res = await axios.post(URL + '/addTask', action.task)
+            if (res.data) {
+                action.task._id = res.data
+                dispatch(action)
+            } else {
+                alert('Failed change the task, please try agian')
+            }
         } catch (err) {
             console.log(err.massage)
         }
@@ -68,10 +66,10 @@ export const editTask = (id, task, IsConfirm) => {
             IsConfirm: IsConfirm
         }
     }
-    return dispatch => {
+    return async dispatch => {
         try {
-            return axios.put(URL + '/editTask', action.task)
-                .then(res => res ? dispatch(action) : alert('Failed change the task, please try agian'))
+            const res = await axios.put(URL + '/editTask', action.task)
+            res ? dispatch(action) : alert('Failed change the task, please try agian')
         } catch (err) {
             console.log(err.massage)
         }
@@ -92,12 +90,10 @@ export const AddTaskContent = content => {
 }
 
 export const getTasks = () => {
-    return dispatch => {
+    return async dispatch => {
         try {
-            return axios.get(URL + '/task')
-                .then(res => {
-                    dispatch(setTasks(res.data.tasks))
-                })
+            const res = await axios.get(URL + '/task')
+            dispatch(setTasks(res.data.tasks))
         } catch (err) {
             console.log(err.massage)
         }
@@ -134,10 +130,10 @@ export const setDate = (id, start, end) => {
             end
         }
     }
-    return dispatch => {
+    return async dispatch => {
         try {
-            return axios.put(URL + '/editDate', action.task)
-                .then(res => res ? dispatch(action) : alert('Failed change the task, please try agian'))
+            const res = await axios.put(URL + '/editDate', action.task)
+            res ? dispatch(action) : alert('Failed change the task, please try agian')
         } catch (err) {
             console.log(err.massage)
         }
