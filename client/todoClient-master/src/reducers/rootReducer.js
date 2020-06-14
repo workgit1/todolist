@@ -1,9 +1,9 @@
 const initState = {
     tasks: [],
-    filter: '',
-    hide: false,
-        focusItem: '',
-        coordinate: [0,0]
+    filterByContent: '',
+    filterByStatusConfirm: false,
+    focusItem: '',
+    coordinate: [0,0]
 }
 
 const rootReducer = (state = initState, action) => {
@@ -27,26 +27,21 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             tasks: state.tasks.map(
-                (task) => task._id === action.task.id ? {
+                task => task._id === action.task.id ? {
                     ...task,
                     content: action.task.content,
                     IsConfirm: action.task.IsConfirm
                 } : task)
         }
-    } else if (action.type === 'SHOW_ALL') {
+    } else if (action.type === 'FILTER_DONE_TASKS') {
         return {
             ...state,
-            hide: false
-        }
-    } else if (action.type === 'HIDE_DONE') {
-        return {
-            ...state,
-            hide: true
+            filterByStatusConfirm: !state.filterByStatusConfirm
         }
     } else if (action.type === 'FILTER') {
         return {
             ...state,
-            filter: action.filter
+            filterByContent: action.filterByContent
         }
     } else if (action.type === 'GET_TASKS') {
         return {
@@ -72,7 +67,7 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             tasks: state.tasks.map(
-                (task) => task._id === action.task.id ? {
+                task => task._id === action.task.id ? {
                     ...task,
                     start: action.task.start,
                     end: action.task.end

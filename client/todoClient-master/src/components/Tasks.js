@@ -1,57 +1,25 @@
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTask, editTask, getTasks } from '../actions/taskActions.js'
+import { getTasks } from '../actions/taskActions.js'
 import './Tasks.css'
-import { Card, CardContent, Checkbox } from '@material-ui/core'
-import { IconButton } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
+import {tasksSelector, filterByContentSelector, filterByStatusConfirmSelector} from "../selectors/selectors"
+import Task from "./Task"
 
 
 function Tasks() { 
-    let AllTasks = useSelector(state => state.tasks)
-    const filter = useSelector(state => state.filter)
-    const hide = useSelector(state => state.hide)
+    let AllTasks = useSelector(tasksSelector)
+    const filterByContent = useSelector(filterByContentSelector)
+    const filterByStatusConfirm = useSelector(filterByStatusConfirmSelector)
     const dispatch = useDispatch()
 
-    const confirmTask = (task) => {
-        dispatch(editTask(task._id, task.content, !task.IsConfirm))
-    }
+    useEffect(() => dispatch(getTasks()) , [dispatch])
     
-    const changeTask = (task) => {
-        let editedTask = prompt("edit the task", task.content)
-        if (editedTask !== null && editedTask !== task.content) {
-            dispatch(editTask(task._id, editedTask, task.IsConfirm))
-        }    
-    }
-
-    const removeTask = (task) => {
-        dispatch(deleteTask(task._id))
-    }
-     
-    useEffect(() => {
-        dispatch(getTasks()) 
-    }, [dispatch])
-    
+    const filter = task => ((!task.IsConfirm) || (!filterByStatusConfirm)) && (task.content.includes(filterByContent))
     const tasks = AllTasks.map(task => {
-        if (((!task.IsConfirm) || (!hide)) && (task.content.includes(filter))) {
+        if (filter(task)) {
             return (
-                <Card key={task._id} className="task">    
-                    <CardContent> 
-                        <Checkbox
-                            color="primary"
-                            checked={task.IsConfirm}
-                            onChange={() => {confirmTask(task)}}
-                        />   
-                        <label>{task.content}</label>
-                        <IconButton className="action-icon"  onClick={() => {removeTask(task)}}>
-                        <DeleteIcon/>
-                        </IconButton>
-                        <IconButton className="action-icon" onClick={() => {changeTask(task)}}>
-                        <EditIcon/>
-                        </IconButton>
-                    </CardContent>
-                </Card>
+                <Task task={task}>
+                </Task>
             )
         }
         return null

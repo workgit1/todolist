@@ -5,9 +5,11 @@ import AddTask from './AddTask.js'
 import Menu from './Menu.js'
 import './ToDoList.css'
 import { Card } from '@material-ui/core'
+import {tasksSelector} from "../selectors/selectors"
+
 
 function ToDoList() { 
-    const tasks = useSelector(state => state.tasks)
+    const tasks = useSelector(tasksSelector)
     let tasksNumber = tasks.length
     let doneTasksNumber = tasks.filter(task => task.IsConfirm).length
 
