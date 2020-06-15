@@ -49,7 +49,7 @@ export const AddTask = (task, startDate, endDate, coordinate) => {
                 action.task._id = res.data
                 dispatch(action)
             } else {
-                alert('Failed change the task, please try agian')
+                alert('Failed add the task, please try agian')
             }
         } catch (err) {
             console.log(err.massage)

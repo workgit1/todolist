@@ -11,7 +11,7 @@ import { setCoordinates } from '../actions/taskActions'
 import Point from "ol/geom/Point"
 import Feature from "ol/Feature"
 import {format} from "../timeFormat"
-import {tasksSelector, focusItemSelector} from "../selectors/selectors"
+import {tasksSelector, focusItemSelector, lastActionSelector} from "../selectors/selectors"
 
 
 const mapTemplate = () => new CreateMap({
@@ -37,12 +37,15 @@ const popupTemplate = container => new Overlay({
 
 function Map() { 
     const dispatch = useDispatch()
+    const lastAction = useSelector(lastActionSelector)
     const tasks = useSelector(tasksSelector)
     const focusItem = useSelector(focusItemSelector)
     const content = useRef()
     const container = useRef()
     const [map, setMap] = useState(null)
     const [tasksDotsMarker, setTasksDotsMarker] = useState(null)
+    const [tasksDotsVectorSource, setTasksDotsVectorSource] = useState(null)
+    const [tasksDotsVectorLayer, setTasksDotsVectorLayer] = useState(null)
     const flyTo = (location, view) => {
         let duration = 2000
         let zoom = view.getZoom()
@@ -57,6 +60,78 @@ function Map() {
           zoom: zoom,
           duration: duration / 2
         })
+    }
+
+    const updateDotsMarkerLayer = {
+        "DELETE_TASK": () => {
+            tasksDotsMarker.forEach(feature => {
+                if (!tasks.find(task => task._id===feature.values_.content._id)) {
+                    setTasksDotsMarker(tasksDotsMarker.filter(item => item.values_.content._id !== feature.values_.content._id))
+                    tasksDotsVectorSource.removeFeature(feature)
+                    return
+                }
+            })
+        },
+        "ADD_TASK": () => {
+            tasks.forEach(task => {
+                if (!tasksDotsMarker.find(feature => task._id===feature.values_.content._id)) {
+                    const feature = new Feature({
+                        geometry: new Point(transform(task.coordinate, "EPSG:4326","EPSG:3857")),
+                        content: task
+                    })
+                    console.log()
+                    setTasksDotsMarker(tasksDotsMarker => [...tasksDotsMarker, feature])
+                    tasksDotsVectorSource.addFeature(feature)
+                    return
+                }
+            })
+        },
+        "EDIT_TASK": () => {
+                tasksDotsMarker.forEach(feature => {
+                    const content = feature.values_.content
+                    const task = tasks.find(task => task._id===content._id && 
+                        (content.content !== task.content || 
+                            content.IsConfirm !== task.IsConfirm))
+                    if (task) {
+                        content.content = task.content
+                        content.IsConfirm = task.IsConfirm                    
+                    }
+                })
+        },
+        "GET_TASKS": () => {
+            const tempTasksDotsMarker = tasks.map(task => {
+                return new Feature({
+                    geometry: new Point(transform(task.coordinate, "EPSG:4326","EPSG:3857")),
+                    content: task
+                })
+            })
+            const tempTasksDotsVectorSource = new VectorSource({features: tempTasksDotsMarker})
+            const tempTasksDotsVectorLayer = new VectorLayer({name: 'tasksDotsVectorLayer',  source : tempTasksDotsVectorSource})
+            map.addLayer(tempTasksDotsVectorLayer)
+            setTasksDotsMarker(tempTasksDotsMarker)
+            setTasksDotsVectorSource(tempTasksDotsVectorSource)
+            setTasksDotsVectorLayer(tempTasksDotsVectorLayer) 
+        },
+        "DELETE_DONE_TASKS": () => {
+                tasksDotsMarker.forEach(feature => {
+                    if (!tasks.find(task => task._id===feature.values_.content._id)) {
+                        setTasksDotsMarker(tasksDotsMarker.filter(item => item.values_.content._id !== feature.values_.content._id))
+                        tasksDotsVectorSource.removeFeature(feature)
+                    }
+                })
+        },
+        "SET_DATE": () => {
+            tasksDotsMarker.forEach(feature => {
+                const content = feature.values_.content
+                const task = tasks.find(task => task._id===content._id && 
+                    (content.start !== task.start || 
+                        content.end !== task.end))
+                if (task) {
+                    content.start = task.start
+                    content.end = task.end                    
+                }                 
+            })
+        }
     }
 
     const setPopup = (feature, coordinate, popup) => {
@@ -82,19 +157,7 @@ function Map() {
     
     useEffect(() => {
         if(map) {
-            map.getLayers().forEach(layer => {
-                layer.get('name') === 'tasksDotsMarkerVectorLayer' && map.removeLayer(layer)
-            })
-            const tempTasksDotsMarker = tasks.map(task => {
-                return new Feature({
-                    geometry: new Point(transform(task.coordinate, "EPSG:4326","EPSG:3857")),
-                    content: task
-                })
-            })
-            const tasksDotsMarkers = new VectorSource({features: tempTasksDotsMarker})
-            const tasksDotsMarkerVectorLayer = new VectorLayer({name: 'tasksDotsMarkerVectorLayer',  source : tasksDotsMarkers})
-            map.addLayer(tasksDotsMarkerVectorLayer)
-            setTasksDotsMarker(tempTasksDotsMarker)
+            updateDotsMarkerLayer[lastAction]()
         }
     }, [map, tasks])
 
@@ -109,12 +172,12 @@ function Map() {
                 map.overlays_.array_[0].setPosition(undefined)
             }
         }
-    }, [focusItem])
+    }, [focusItem, map, tasksDotsMarker, tasks])
 
     return(
         <React.Fragment>
             <div id="map"></div>
-            <div id="popup" ref={container} title="myproject" class="ol-popup"><a href="#" id="popup-closer" class="ol-popup-closer"></a><div id="popup-content" ref={content}></div></div>
+            <div id="popup" ref={container} title="myproject" className="ol-popup"><a href="#" id="popup-closer" className="ol-popup-closer"></a><div id="popup-content" ref={content}></div></div>
         </React.Fragment>
     )
 }
