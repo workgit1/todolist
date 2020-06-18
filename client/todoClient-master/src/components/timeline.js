@@ -4,10 +4,12 @@ import { setFocusItem, setDate } from '../actions/taskActions'
 import './timeline.css'
 import { Card } from '@material-ui/core'
 import VisTimeline from 'react-visjs-timeline'
+import {tasksSelector} from "../selectors/selectors"
+
 
 function Timeline() {
     const dispatch = useDispatch()
-    const tasks = useSelector(state => state.tasks)
+    const tasks = useSelector(tasksSelector)
     const options = {
         width: '100%',
         height: '327px',
@@ -15,9 +17,7 @@ function Timeline() {
             updateTime: true
         },
         itemsAlwaysDraggable: true,
-        onMove: (e) => {
-            dispatch(setDate(e.id, e.start, e.end))
-        }
+        onMove: e => dispatch(setDate(e.id, e.start, e.end))
     }
 
     const items = tasks
@@ -25,7 +25,7 @@ function Timeline() {
         item.id = item['_id']
     })
 
-    const onSelect = (properties) => {
+    const onSelect = properties => {
         if(properties.item) {
             dispatch(setFocusItem(properties.item))
         } 

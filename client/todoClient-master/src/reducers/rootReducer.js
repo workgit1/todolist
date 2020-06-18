@@ -1,9 +1,10 @@
 const initState = {
     tasks: [],
-    filter: '',
-    hide: false,
-        focusItem: '',
-        coordinate: [0,0]
+    filterByContent: '',
+    filterByStatusConfirm: false,
+    focusItem: '',
+    coordinate: [0,0],
+    lastAction: 'GET_TASKS'
 }
 
 const rootReducer = (state = initState, action) => {
@@ -16,67 +17,77 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             tasks: tasks,
-            focusItem: focusId
+            focusItem: focusId,
+            lastAction: action.type
         }
     } else if (action.type === 'ADD_TASK') {
         return {
             ...state,
-            tasks: [...state.tasks, action.task]
+            tasks: [...state.tasks, action.task],
+            lastAction: action.type
         }
     } else if (action.type === 'EDIT_TASK') {
         return {
             ...state,
             tasks: state.tasks.map(
-                (task) => task._id === action.task.id ? {
+                task => task._id === action.task.id ? {
                     ...task,
                     content: action.task.content,
                     IsConfirm: action.task.IsConfirm
-                } : task)
+                } : task),
+            lastAction: action.type
         }
-    } else if (action.type === 'SHOW_ALL') {
+    } else if (action.type === 'FILTER_DONE_TASKS') {
         return {
             ...state,
-            hide: false
-        }
-    } else if (action.type === 'HIDE_DONE') {
-        return {
-            ...state,
-            hide: true
+            filterByStatusConfirm: !state.filterByStatusConfirm,
+            lastAction: action.type
         }
     } else if (action.type === 'FILTER') {
         return {
             ...state,
-            filter: action.filter
+            filterByContent: action.filterByContent,
+            lastAction: action.type
         }
     } else if (action.type === 'GET_TASKS') {
         return {
             ...state,
-            tasks: action.tasks
+            tasks: action.tasks,
+            lastAction: action.type
         }
     } else if (action.type === 'DELETE_DONE_TASKS') {
+        let focusId = state.focusItem
+        if (action.id.includes(focusId)) {
+            focusId = ''
+        }
         return {
             ...state,
-            tasks: state.tasks.filter(task => !action.id.includes(task._id))
+            tasks: state.tasks.filter(task => !action.id.includes(task._id)),
+            lastAction: action.type,
+            focusItem: focusId
         }
     } else if (action.type === 'SET_FOCUS_ITEM') {
         return {
             ...state,
-            focusItem: action.id
+            focusItem: action.id,
+            lastAction: action.type
         }
     } else if (action.type === 'SET_COORDINATES') {
         return {
             ...state,
-            coordinate: action.coordinate
+            coordinate: action.coordinate,
+            lastAction: action.type
         }
     } else if (action.type === 'SET_DATE') {
         return {
             ...state,
             tasks: state.tasks.map(
-                (task) => task._id === action.task.id ? {
+                task => task._id === action.task.id ? {
                     ...task,
                     start: action.task.start,
                     end: action.task.end
-                } : task)
+                } : task),
+            lastAction: action.type
         }
     }
     return state

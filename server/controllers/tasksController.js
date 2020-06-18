@@ -25,7 +25,7 @@ const tasksSchema = new mongoose.Schema({
 })
 const task = mongoose.model('tasks', tasksSchema)
 
-module.exports = (app) => {
+module.exports = app => {
 
     app.get('/task', (req, res) => {
         try {
@@ -34,7 +34,7 @@ module.exports = (app) => {
             })
         }
         catch (err) {
-            console.log("Fail getting all tasks " + err.massage)
+            console.log(`Fail getting all tasks ${err.massage}`)
         }
         
     })
@@ -44,7 +44,6 @@ module.exports = (app) => {
             task.find({content: req.body.content}, (err, data) => {
                 if (err) throw err
                 if (data.length == 1) {
-                    // task already exist
                     res.send(false)
                 } else {
                     task({
@@ -59,7 +58,7 @@ module.exports = (app) => {
             })
         }
         catch (err) {
-            throw Error("Fail add new task " + err.massage)
+            throw Error(`Fail add new task ${err.massage}`)
         }
     })
 
@@ -69,8 +68,7 @@ module.exports = (app) => {
             const id = url[url.length-1]
             task.deleteOne({'_id': id}, (err, data) => {                 if (err) throw err 
                 if (data.deletedCount){
-                    console.log("delete " + id + " successfuly")
-                    // delete success
+                    console.log(`delete ${id} successfuly`)
                     res.send(true)
                 } else {
                     res.send(false)
@@ -78,7 +76,7 @@ module.exports = (app) => {
             })
         }
         catch (err) {
-            throw Error("Fail delete task " + err.massage)
+            throw Error(`Fail delete task ${err.massage}`)
         }
     })
 
@@ -86,16 +84,11 @@ module.exports = (app) => {
         try{
             task.deleteMany({_id: { $in: req.body }}, (err, data) => {
                 if (err) throw err 
-                if (data.deletedCount){
-                    // delete success
-                    res.send(true)
-                } else {
-                    res.send(false)
-                }
+                data.deletedCount ? res.send(true) : res.send(false)
             })
         }
         catch (err) {
-            throw Error("Fail delete all done tasks " + err.massage)
+            throw Error(`Fail delete all done tasks ${err.massage}`)
         }
     })
 
@@ -109,16 +102,11 @@ module.exports = (app) => {
                 }
             }, (err, data) => {
                 if (err) throw err
-                if (data.ok) {
-                    // task edited
-                    res.send(true)
-                } else {
-                    res.send(false)
-                }
+                data.ok ? res.send(true) : res.send(false)
             })
         }
         catch (err) {
-            throw Error("Fail edit task " + err.massage)
+            throw Error(`Fail edit task ${err.massage}`)
         }
     })
 
@@ -132,16 +120,11 @@ module.exports = (app) => {
                 }
             }, (err, data) => {
                 if (err) throw err
-                if (data.ok) {
-                    // task edited
-                    res.send(true)
-                } else {
-                    res.send(false)
-                }
+                data.ok ? res.send(true) : res.send(false)
             })
         }
         catch (err) {
-            throw Error("Fail edit task " + err.massage)
+            throw Error(`Fail edit task ${err.massage}`)
         }
     })
 }   
